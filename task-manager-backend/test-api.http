@@ -116,3 +116,23 @@ Content-Type: application/json
 }
 ### 13. Health check - verificar que el servidor esté funcionando
 GET {{baseUrl}}/health
+
+### 14. Crear tarea en un equipo
+POST {{baseUrl}}/tareas/d16e137c-320e-459d-9205-a6fc9af64e1e/tareas
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "titulo": "Tarea de prueba",
+  "descripcion": "Esta es una tarea de prueba",
+  "prioridad": "media",
+  "fechaVencimiento": "2024-12-31",
+  "estado": "pendiente"
+}
+
+### 15. Obtener tareas de un equipo
+GET {{baseUrl}}/tareas/d16e137c-320e-459d-9205-a6fc9af64e1e/tareas
+Authorization: Bearer {{token}}
+
+### 16. Acceso sin token (DEBE FALLAR)
+GET {{baseUrl}}/equipos
