@@ -1,0 +1,118 @@
+### Variables globales
+@baseUrl = http://localhost:3000/api/v1
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI3MzU1MGViLWUwM2MtNDg1Ni1hOGQ2LWU3MDA0NTkxNWJiNyIsImlhdCI6MTc1ODc2NTAyMiwiZXhwIjoxNzU5MzY5ODIyfQ.ILOPxt8oqr41eYpgXu8g0b-5mxbb9LR8FlYavgW8jRk
+
+### 1. Registro de usuario válido
+POST {{baseUrl}}/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Usuario Test",
+  "email": "test@example.com",
+  "password": "123456"
+}
+
+### 2. Login con usuario registrado (guarda el token que devuelve)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "123456"
+}
+
+### 3. Login con Ana (si ya existe)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "ana@example.com",
+  "password": "123456"
+}
+
+### 4. Obtener perfil del usuario
+GET {{baseUrl}}/auth/perfil
+Authorization: Bearer {{token}}
+
+### 5. Registro con email inválido (con falla)
+POST {{baseUrl}}/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Test",
+  "email": "email-invalido",
+  "password": "123456"
+}
+
+### 6. Registro con contraseña muy corta (con falla)
+POST {{baseUrl}}/auth/registro
+Content-Type: application/json
+
+{
+  "nombre": "Test",
+  "email": "test2@example.com",
+  "password": "123"
+}
+
+### 7. Crear equipo
+POST {{baseUrl}}/equipos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Mi Equipo Test",
+  "descripcion": "Equipo para testing de la API",
+  "color": "#FF5733"
+}
+
+### 8. Obtener todos los equipos
+GET {{baseUrl}}/equipos
+Authorization: Bearer {{token}}
+
+### 9. Obtener equipo específico (reemplaza EQUIPO_ID con el ID real)
+GET {{baseUrl}}/equipos/d16e137c-320e-459d-9205-a6fc9af64e1e
+Authorization: Bearer {{token}}
+
+### 10. Actualizar equipo (reemplaza EQUIPO_ID con el ID real)
+PUT {{baseUrl}}/equipos/d16e137c-320e-459d-9205-a6fc9af64e1e
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Equipo Actualizado",
+  "descripcion": "Descripción actualizada",
+  "color": "#00FF00"
+}
+
+### 11. Agregar miembro al equipo (reemplaza EQUIPO_ID con el ID real)
+POST {{baseUrl}}/equipos/d16e137c-320e-459d-9205-a6fc9af64e1e/miembros
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "email": "carlos@example.com",
+  "rol": "miembro"
+}
+
+
+### 12. TAREAS - RUTAS NO IMPLEMENTADAS AÚN
+# Las siguientes rutas no están en el archivo equipos.js:
+# POST /equipos/:id/tareas (crear tarea)
+# GET /equipos/:id/tareas (obtener tareas)
+# PUT /equipos/:id/tareas/:tareaId (actualizar tarea)
+# DELETE /equipos/:id/tareas/:tareaId (eliminar tarea)
+
+### 12b. Verificar estructura del equipo creado
+GET {{baseUrl}}/equipos/d16e137c-320e-459d-9205-a6fc9af64e1e
+Authorization: Bearer {{token}}
+
+### 12c. Actualizar rol de miembro (esto SÍ debería funcionar)
+PUT {{baseUrl}}/equipos/d16e137c-320e-459d-9205-a6fc9af64e1e/miembros/USUARIO_ID_AQUI/rol
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "rol": "admin"
+}
+### 13. Health check - verificar que el servidor esté funcionando
+GET {{baseUrl}}/health
